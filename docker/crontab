@@ -1,0 +1,2 @@
+# Run debt clearing at 00:00 on January 1st
+0 0 1 1 * /usr/local/bin/php /var/www/html/yii loan/clear-random-debt >> /var/log/cron.log 2>&1

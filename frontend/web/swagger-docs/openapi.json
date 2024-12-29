@@ -1,0 +1,620 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Loan Application System API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/auth/signup": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "operationId": "8f37e369310fbc2cc998308aa0fdb815",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "first_name",
+                                    "last_name",
+                                    "date_of_birth",
+                                    "passport_number",
+                                    "passport_expiry_date"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "date_of_birth": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "passport_number": {
+                                        "type": "string"
+                                    },
+                                    "passport_expiry_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User successfully registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "first_name": {
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login user",
+                "operationId": "35afac1ae6252d0aa13fd183ad94df26",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "first_name": {
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/document/upload": {
+            "post": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "Upload document",
+                "operationId": "d2a260157abd68b8245db0e9a7f9b9f9",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file",
+                                    "type"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "passport",
+                                            "income"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Document uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "user_id": {
+                                            "type": "integer"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "enum": [
+                                                "passport",
+                                                "income"
+                                            ]
+                                        },
+                                        "file_path": {
+                                            "type": "string"
+                                        },
+                                        "original_name": {
+                                            "type": "string"
+                                        },
+                                        "mime_type": {
+                                            "type": "string"
+                                        },
+                                        "size": {
+                                            "type": "integer"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/document/list": {
+            "get": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "Get user documents",
+                "operationId": "e4f4bcebfa8ee30bb7894fc29bb90304",
+                "responses": {
+                    "200": {
+                        "description": "List of documents",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "user_id": {
+                                                "type": "integer"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "passport",
+                                                    "income"
+                                                ]
+                                            },
+                                            "file_path": {
+                                                "type": "string"
+                                            },
+                                            "original_name": {
+                                                "type": "string"
+                                            },
+                                            "mime_type": {
+                                                "type": "string"
+                                            },
+                                            "size": {
+                                                "type": "integer"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "datetime"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/loan/create": {
+            "post": {
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Create new loan application",
+                "operationId": "cfb281579a2b21f9a78bfec27e6480c9",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount",
+                                    "term_months",
+                                    "purpose",
+                                    "monthly_income"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 10000
+                                    },
+                                    "term_months": {
+                                        "type": "integer",
+                                        "maximum": 60,
+                                        "minimum": 6,
+                                        "example": 12
+                                    },
+                                    "purpose": {
+                                        "type": "string",
+                                        "example": "Home renovation"
+                                    },
+                                    "monthly_income": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Loan application created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "user_id": {
+                                            "type": "integer"
+                                        },
+                                        "amount": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "term_months": {
+                                            "type": "integer"
+                                        },
+                                        "purpose": {
+                                            "type": "string"
+                                        },
+                                        "monthly_income": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "monthly_payment": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "pending",
+                                                "approved",
+                                                "rejected"
+                                            ]
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/loan/list": {
+            "get": {
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Get user's loan applications",
+                "operationId": "6405ed158c66df29c4fa5b5e7971ffb2",
+                "responses": {
+                    "200": {
+                        "description": "List of loan applications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "user_id": {
+                                                "type": "integer"
+                                            },
+                                            "amount": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "term_months": {
+                                                "type": "integer"
+                                            },
+                                            "purpose": {
+                                                "type": "string"
+                                            },
+                                            "monthly_income": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "monthly_payment": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "pending",
+                                                    "approved",
+                                                    "rejected"
+                                                ]
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "datetime"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "datetime"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Document": {
+                "required": [
+                    "id",
+                    "user_id",
+                    "type",
+                    "file_path",
+                    "original_name",
+                    "mime_type",
+                    "size"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "passport",
+                            "income"
+                        ]
+                    },
+                    "file_path": {
+                        "type": "string"
+                    },
+                    "original_name": {
+                        "type": "string"
+                    },
+                    "mime_type": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime"
+                    }
+                },
+                "type": "object"
+            },
+            "LoanApplication": {
+                "required": [
+                    "amount",
+                    "term_months",
+                    "purpose",
+                    "monthly_income"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "term_months": {
+                        "type": "integer"
+                    },
+                    "purpose": {
+                        "type": "string"
+                    },
+                    "monthly_income": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "monthly_payment": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "approved",
+                            "rejected"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Authentication endpoints"
+        },
+        {
+            "name": "Documents",
+            "description": "Document management"
+        },
+        {
+            "name": "Loans",
+            "description": "Loan applications management"
+        }
+    ]
+}
